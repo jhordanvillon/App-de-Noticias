@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-class LoginPage extends StatelessWidget {
+class SigninPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-          decoration: BoxDecoration( 
+      body: Container(
+        decoration: BoxDecoration( 
              gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -18,22 +17,30 @@ class LoginPage extends StatelessWidget {
                   Color(0XFF475C7A),
             ]),
           ),
-           child:Column(
+          
+        child:Column(
           children:[
              SizedBox(height: 60),
             _campoTexto(placeholder: 'Email', isPassword:false),
+            _campoTexto(placeholder: 'Nombre', isPassword:false),
             _campoTexto(placeholder: 'Password', isPassword:true),
+            _campoTexto(placeholder: 'Re - Password', isPassword:true),  
               SizedBox(height: 25),
-            _login(context: context),
+            _botonRegistrarse(),
             Expanded(child: 
             Container(
 
             )),
-            _signIn(context: context)
+            _regresarLogin(context: context)
           ],
         ),
-    ));
+
+
+      ),
+    );
   }
+
+
   Widget _campoTexto({String placeholder, bool isPassword }){
     return  Container( 
             padding: EdgeInsets.symmetric(horizontal: 70),
@@ -50,51 +57,46 @@ class LoginPage extends StatelessWidget {
             ),
           );
   } 
- Widget _login({BuildContext context}){
-   return GestureDetector(
-        onTap:(){
-          Navigator.pushNamed(context, 'home');
-        } ,
-        child: Container(
-              child: Container(
-                width: 200,
-                height: 45,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: Colors.black,
-                  ),
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.white,
-                        Color(0XFFFCBB6D),
-                      ]),
+ Widget _botonRegistrarse(){
+   return Container(
+            child: Container(
+              width: 200,
+              height: 45,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: Colors.black,
                 ),
-                child: Center(child: Text('Registrarse')),
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.white,
+                      Color(0XFFFCBB6D),
+                    ]),
               ),
+              child: Center(child: Text('Registrarse')),
+            ),
 
-  ),
-   ); 
+  ); 
  }
-  Widget _signIn({BuildContext context}){
+  Widget _regresarLogin({BuildContext context}){
 return 
   Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                'Eres nuevo?',
+                'Tienes cuenta?',
                 style: TextStyle(color: Colors.white, fontSize: 15),
               ),
               CupertinoButton(
                   child: Text(
-                    'Regístrate',
+                    'Login',
                     style: TextStyle(color: Color(0XFFFCBB6D)),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, 'signin');
+                    Navigator.pushNamed(context, 'login');
                   })
             ],
           );
