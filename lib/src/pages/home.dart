@@ -1,97 +1,80 @@
+import 'package:app_de_noticias/src/pages/categorias.dart';
+import 'package:app_de_noticias/src/pages/paraTi.dart';
 import 'package:flutter/material.dart';
-class HomePage extends StatelessWidget {
+import 'package:provider/provider.dart';
+
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
   @override
   Widget build(BuildContext context) {
-    //linea que define el tamaño de la pantalla del dispositivo 
-    final size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Container(
-        //defino los tamaños del container principal 
-        height:size.height,   //todo el largo de la pantalla 
-        width:size.width,     //todo el tamaño de la pantalla ancha
-        //creo un listview
-        child: ListView(
-          children: [
-            _card(),
-            _card(),
-            _card(),
-            _card()
-          ],
-        ),
-
-         decoration: BoxDecoration( 
-             gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                  Color(0XFFFCBB6D),
-                  Color(0XFFB46D7E),
-                  Color(0XFF94687D),
-                  Color(0XFF71637B),
-                  Color(0XFF475C7A),
-            ]),
-          ),
-         
-      )
+    return ChangeNotifierProvider(
+      create: (_)=>new _NavegacionModel(),//Manejador de estados para definir en que pantalla estoy
+      child: Scaffold(
+        bottomNavigationBar: _Navegacion(),
+        body: _Paginas()
+      ),
     );
   }
-  Widget _card(){
-    return Container( //la forma del card
-      margin: EdgeInsets.only(top: 25),
-      padding:EdgeInsets.symmetric(horizontal:10),
-      child:  Container(
-        decoration:BoxDecoration(
-                  color: Color.fromRGBO(255, 255, 255, 0.4),
-                  borderRadius: BorderRadius.circular(15)
-        ),
-        padding: EdgeInsets.only(top: 20),
-        height: 350,
-       
+}
 
-        child: Column( // contenido del card
-          children: [
-            ListTile( //encabezado
-              title: Text("Jhordan Villón"),
-              subtitle: Text("Publicado en Lima, Perú 28 de Marzo"),
-              leading: CircleAvatar(
-                child: Text("J"),
-              ),
-            ),
-            Container( //imagen
-              padding: EdgeInsets.symmetric(horizontal:10),
-                          child: Container(
-                height: 180,
-                width:double.infinity, //ocupada todo el espacio disponible
-                decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                 image: DecorationImage(
-                   image: AssetImage("assets/unnamed.jpg"),
-                   fit: BoxFit.fill,
-                   
-                 )
-               ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal:15),
-              margin: EdgeInsets.only(top:10),
-              child: Text("OG resultó campeón del International 9, haciendo acreedor de 15 millones de dólares.",style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-              ),)
-            ), //titulo de la noticia
-          ],
+class _Navegacion extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final navegacionModel = Provider.of<_NavegacionModel>(context);
+    return BottomNavigationBar(
+      currentIndex: navegacionModel.paginaActual,
+      onTap: (indice){
+        navegacionModel.paginaActual = indice;
+      },
+      items: [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person_outline),
+          label:'Para ti'
         ),
-      )
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person_outline),
+          label:'Categorias'
+        )
+      ],
     );
+  }
+}
 
-  } // fin de todo el card.
+class _Paginas extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final navegacionModel = Provider.of<_NavegacionModel>(context);
+
+    return PageView(
+      controller: navegacionModel._pageController,
+      physics: NeverScrollableScrollPhysics(),//para q no se pueda hacer scroll
+      children: [
+        ParaTiPage(),
+        CategoriasPage()
+      ],
+    );
+  }
+}
+
+class _NavegacionModel with ChangeNotifier{
+  int _paginaActual = 0; //seteamos la pagina en 0 para q al iniciar empieze al inicio
+  PageController _pageController = new PageController(); // creamos un controlador para manerjar las paginas
+
+  int get paginaActual => this._paginaActual; // metodo get para llamar a la pagina actual
+
+  //metodo set para cambiar el valor de la pagina actual
+  set paginaActual(int valor){
+    this._paginaActual = valor;
+    _pageController.animateToPage(valor, duration: Duration(milliseconds: 250), curve: Curves.easeOut);
+    notifyListeners();
+  }
+
+  PageController get pageController => this._pageController;//metodo get para el controlador
+
 
 }
-/*
- child: Image(
-                  fit: BoxFit.fill,
-                  image:AssetImage("assets/unnamed.jpg"),
-                  
-                )
-*/
