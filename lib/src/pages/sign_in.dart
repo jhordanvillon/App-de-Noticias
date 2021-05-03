@@ -1,41 +1,28 @@
+import 'package:app_de_noticias/src/widgets/BGcolor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 class SigninPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration( 
-             gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                  Color(0XFFFCBB6D),
-                  Color(0XFFB46D7E),
-                  Color(0XFF94687D),
-                  Color(0XFF71637B),
-                  Color(0XFF475C7A),
-            ]),
+        decoration: BGColor.decor,
+        child:SingleChildScrollView(
+          child: Column(
+            children:[
+               SizedBox(height: size.height*0.35),
+              _campoTexto(placeholder: 'Email', isPassword:false),
+              _campoTexto(placeholder: 'Nombre', isPassword:false),
+              _campoTexto(placeholder: 'Password', isPassword:true),
+              _campoTexto(placeholder: 'Re - Password', isPassword:true),  
+                SizedBox(height: 25),
+              _botonRegistrarse(),
+              SizedBox(height: size.height*0.25),
+              _regresarLogin(context: context)
+            ],
           ),
-          
-        child:Column(
-          children:[
-             SizedBox(height: 60),
-            _campoTexto(placeholder: 'Email', isPassword:false),
-            _campoTexto(placeholder: 'Nombre', isPassword:false),
-            _campoTexto(placeholder: 'Password', isPassword:true),
-            _campoTexto(placeholder: 'Re - Password', isPassword:true),  
-              SizedBox(height: 25),
-            _botonRegistrarse(),
-            Expanded(child: 
-            Container(
-
-            )),
-            _regresarLogin(context: context)
-          ],
         ),
-
-
       ),
     );
   }
