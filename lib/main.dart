@@ -1,6 +1,7 @@
 import 'package:app_de_noticias/src/pages/home.dart';
 import 'package:app_de_noticias/src/pages/login.dart';
 import 'package:app_de_noticias/src/pages/sign_in.dart';
+import 'package:app_de_noticias/src/pages/splash.dart';
 import 'package:flutter/material.dart';
 
 import 'src/pages/crear_noticias.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         'crear_noticia':(_)=>CrearNoticia(),
         'perfil':(_)=>Perfil()
       },
-      initialRoute: 'login',
+      home: SplashHomePage(),
     );
   }
 }

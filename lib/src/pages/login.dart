@@ -1,8 +1,11 @@
+import 'package:app_de_noticias/src/api/Auth_Api.dart';
 import 'package:app_de_noticias/src/widgets/BGcolor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
+  final emailCtrl = TextEditingController();
+  final passCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -17,8 +20,8 @@ class LoginPage extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: size.height * 0.35),
-              _campoTexto(placeholder: 'Email', isPassword: false),
-              _campoTexto(placeholder: 'Password', isPassword: true),
+              _campoTexto(placeholder: 'Email', isPassword: false,controller: emailCtrl),
+              _campoTexto(placeholder: 'Password', isPassword: true,controller: passCtrl),
               SizedBox(height: 25),
               _login(context: context),
               SizedBox(
@@ -32,11 +35,13 @@ class LoginPage extends StatelessWidget {
     ));
   }
 
-  Widget _campoTexto({String placeholder, bool isPassword}) {
+  Widget _campoTexto({String placeholder, bool isPassword,TextEditingController controller}) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 70),
       child: TextField(
         obscureText: isPassword,
+        controller: controller,
+        
         decoration: InputDecoration(
           hintText: placeholder,
           hintStyle: TextStyle(
@@ -51,8 +56,11 @@ class LoginPage extends StatelessWidget {
 
   Widget _login({BuildContext context}) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, 'home');
+      onTap: () async{
+        final isOk = await AuthenticationApi.instance.login(context: context, email: emailCtrl.text, password: passCtrl.text);
+        if(isOk){
+          Navigator.pushReplacementNamed(context, 'home');
+        }
       },
       child: Container(
         child: Container(

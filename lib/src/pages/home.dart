@@ -38,7 +38,7 @@ class _Navegacion extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person_outline),
-          label:'Categorias'
+          label:'Mis noticias'
         )
       ],
     );
